@@ -7,6 +7,10 @@ import time
 import os
 
 
+from concurrent.futures import ThreadPoolExecutor
+from functools import partial
+
+
 def get_slice_bboxes(
     image_height: int,
     image_width: int,
@@ -175,7 +179,9 @@ video_path = os.path.join(current_dir, "../dataset/12910250-hd_1920_1080_30fps.m
 
 cap = cv2.VideoCapture(video_path)
 
-model = YOLO("yolov8s.pt")
+# model = YOLO("yolov8s.pt")
+model = YOLO("yolov8s-world.pt")
+
 
 
 # Get the width and height of the video frame
@@ -222,7 +228,7 @@ while cap.isOpened():
         window = image_slice['image']
         start_x, start_y = image_slice['starting_pixel']
 
-        results = model.predict(window, conf=0.40, classes=2)
+        results = model.predict(window, conf=0.70, classes=0)
 
         for result in results:
 
@@ -278,6 +284,12 @@ while cap.isOpened():
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+
+
+
+
+
 cap.release()
 out.release()
 cv2.destroyAllWindows()
+
