@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from ultralytics import YOLO
 import time
+import os
 
 
 def get_slice_bboxes(
@@ -167,9 +168,12 @@ def slice_image(
 
 
 
+ 
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+video_path = os.path.join(current_dir, "../dataset/12910250-hd_1920_1080_30fps.mp4")
 
-cap = cv2.VideoCapture("12576722-uhd_2560_1440_50fps.mp4")
+cap = cv2.VideoCapture(video_path)
 
 model = YOLO("yolov8s.pt")
 
